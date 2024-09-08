@@ -19,6 +19,7 @@
 		"url": "https://github.com/nazmul-nhb/rtk-product-management.git"
 	},
 	"dependencies": {
+		"@nazmul-nhb/id-generator": "^1.2.1",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",

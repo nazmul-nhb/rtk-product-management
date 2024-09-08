@@ -1,8 +1,9 @@
-import express, {Application, Request, Response, NextFunction } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./configs/db";
 import { ErrorObject } from "./types/interfaces";
+import productRoutes from "./routes/products";
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ const port = process.env.PORT || 4242;
 		app.get("/", async (req: Request, res: Response) => {
 			res.send("Server is Running!");
 		});
+		
+		// Actual routes
+		app.use("/products", productRoutes);
 
 		// Error handler for 404
 		app.use((req: Request, res: Response, next: NextFunction) => {
