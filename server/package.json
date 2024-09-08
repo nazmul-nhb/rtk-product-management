@@ -4,8 +4,7 @@
 	"main": "index.ts",
 	"scripts": {
 		"start": "ts-node index.ts",
-		"dev": "ts-node-dev index.ts",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "ts-node-dev index.ts"
 	},
 	"keywords": [
 		"typescript",
@@ -14,8 +13,11 @@
 	],
 	"author": "Nazmul Hassan",
 	"license": "ISC",
-	"description": "",
-	"repository": {},
+	"description": "Product Management with React, React-Redux, Redux Toolkit, RTK Query, Express, Mongoose, TypeScript",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nazmul-nhb/rtk-product-management.git"
+	},
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
