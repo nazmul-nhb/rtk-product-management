@@ -9,12 +9,11 @@ export const ProductSchema = new Schema({
 	},
 	productId: {
 		type: String,
-		default: generateID({
+		default: () => generateID({
 			separator: "",
 			prefix: "NHB",
 			caseOption: "upper",
 		}),
-		unique: true,
 	},
 	productImage: {
 		type: String,
