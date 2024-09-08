@@ -7,7 +7,10 @@ import productRoutes from "./routes/products";
 
 dotenv.config();
 
+// create app
 const app: Application = express();
+
+// declare port
 const port = process.env.PORT || 4242;
 
 // Use IIFE to start the Server
