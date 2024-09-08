@@ -95,12 +95,49 @@ export const updateProduct = async (
 				updatedProduct,
 				message: `${updatedProduct.title} is Updated Successfully!`,
 			});
-        } else {
-            throw new Error("Cannot Update the Product!")
-        }
+		} else {
+			throw new Error("Cannot Update the Product!");
+		}
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error("Error Updating Product: ", error.message);
+			res.status(400).send({
+				success: false,
+				message: error.message,
+			});
+		} else {
+			console.error("An Unknown Error Occurred!");
+			res.status(500).send({
+				success: false,
+				message: "Internal Server Error!",
+			});
+		}
+	}
+};
+
+// Delete a product by ID
+export const deleteProduct = async (
+	req: Request<{ id: string }, {}, {}>,
+	res: Response
+) => {
+	try {
+        const ID = req.params.id;
+        
+        const result = await Product.findOneAndDelete({ _id: ID });
+
+		if (!result) {
+			return res
+				.status(404)
+				.send({ success: false, message: "Product Not Found!" });
+		}
+
+		res.status(200).send({
+			success: true,
+			message: "Product Deleted Successfully!",
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error("Error Deleting Product: ", error.message);
 			res.status(400).send({
 				success: false,
 				message: error.message,
