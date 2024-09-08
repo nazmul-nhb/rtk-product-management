@@ -44,3 +44,32 @@ export const createProduct = async (
 		}
 	}
 };
+
+export const getProducts = async (req: Request, res: Response) => {
+	try {
+		const [products, totalProducts] = await Promise.all([
+			Product.find({}),
+			Product.countDocuments(),
+		]);
+
+		return res.status(200).send({
+			success: true,
+			totalProducts,
+			products,
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error("Error Fetching Products: ", error.message);
+			res.status(400).send({
+				success: false,
+				message: error.message,
+			});
+		} else {
+			console.error("An Unknown Error Occurred!");
+			res.status(500).send({
+				success: false,
+				message: "Internal Server Error!",
+			});
+		}
+	}
+};
