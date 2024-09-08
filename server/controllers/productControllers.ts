@@ -1,11 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ProductDetails } from "../types/interfaces";
 import { Product } from "../models/productModel";
 
 // Create Product(s)
 export const createProduct = async (
 	req: Request<{}, {}, ProductDetails | ProductDetails[]>,
-	res: Response
+	res: Response,
+	next: NextFunction
 ) => {
 	try {
 		// Check if req.body is an array (for multiple products)
@@ -37,17 +38,17 @@ export const createProduct = async (
 				message: error.message,
 			});
 		} else {
-			console.error("An Unknown Error Occurred!");
-			res.status(500).send({
-				success: false,
-				message: "Internal Server Error!",
-			});
+			next(error);
 		}
 	}
 };
 
 // Get all products
-export const getProducts = async (req: Request, res: Response) => {
+export const getProducts = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	try {
 		const [products, totalProducts] = await Promise.all([
 			Product.find({}),
@@ -67,11 +68,7 @@ export const getProducts = async (req: Request, res: Response) => {
 				message: error.message,
 			});
 		} else {
-			console.error("An Unknown Error Occurred!");
-			res.status(500).send({
-				success: false,
-				message: "Internal Server Error!",
-			});
+			next(error);
 		}
 	}
 };
@@ -79,7 +76,8 @@ export const getProducts = async (req: Request, res: Response) => {
 // Update a product by ID
 export const updateProduct = async (
 	req: Request<{ id: string }, {}, ProductDetails>,
-	res: Response
+	res: Response,
+	next: NextFunction
 ) => {
 	try {
 		const ID = req.params.id;
@@ -106,11 +104,7 @@ export const updateProduct = async (
 				message: error.message,
 			});
 		} else {
-			console.error("An Unknown Error Occurred!");
-			res.status(500).send({
-				success: false,
-				message: "Internal Server Error!",
-			});
+			next(error);
 		}
 	}
 };
@@ -118,14 +112,15 @@ export const updateProduct = async (
 // Delete a product by ID
 export const deleteProduct = async (
 	req: Request<{ id: string }, {}, {}>,
-	res: Response
+	res: Response,
+	next: NextFunction
 ) => {
 	try {
-        const ID = req.params.id;
-        
-        const result = await Product.findOneAndDelete({ _id: ID });
+		const ID = req.params.id;
 
-		if (!result) {
+		const deletedProduct = await Product.findOneAndDelete({ _id: ID });
+
+		if (!deletedProduct) {
 			return res
 				.status(404)
 				.send({ success: false, message: "Product Not Found!" });
@@ -133,7 +128,7 @@ export const deleteProduct = async (
 
 		res.status(200).send({
 			success: true,
-			message: "Product Deleted Successfully!",
+			message: `${deletedProduct?.title || "Product"} is Deleted Successfully!`,
 		});
 	} catch (error) {
 		if (error instanceof Error) {
@@ -143,11 +138,7 @@ export const deleteProduct = async (
 				message: error.message,
 			});
 		} else {
-			console.error("An Unknown Error Occurred!");
-			res.status(500).send({
-				success: false,
-				message: "Internal Server Error!",
-			});
+			next(error);
 		}
 	}
 };
