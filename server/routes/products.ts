@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { createProduct, deleteProduct, getProducts, updateProduct } from "../controllers/productControllers";
 
 const router = express.Router();
@@ -9,4 +9,3 @@ router.patch("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 
 export default router;
- 
