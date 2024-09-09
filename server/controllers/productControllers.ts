@@ -73,6 +73,33 @@ export const getProducts = async (
 	}
 };
 
+// Get single product by id
+export const getProduct = async (
+	req: Request<{ id: string }, {}, {}>,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const ID = req.params.id;
+		const product = await Product.findById(ID);
+
+		return res.status(200).send({
+			success: true,
+			product,
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error("Error Fetching Product: ", error.message);
+			res.status(400).send({
+				success: false,
+				message: error.message,
+			});
+		} else {
+			next(error);
+		}
+	}
+};
+
 // Update a product by ID
 export const updateProduct = async (
 	req: Request<{ id: string }, {}, ProductDetails>,
@@ -128,7 +155,9 @@ export const deleteProduct = async (
 
 		res.status(200).send({
 			success: true,
-			message: `${deletedProduct?.title || "Product"} is Deleted Successfully!`,
+			message: `${
+				deletedProduct?.title || "Product"
+			} is Deleted Successfully!`,
 		});
 	} catch (error) {
 		if (error instanceof Error) {
