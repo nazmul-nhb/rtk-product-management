@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-	CreateProductResponse,
+	MuteProductResponse,
 	Product,
 	ProductsResponse,
 } from "../types/interfaces";
@@ -20,7 +20,7 @@ export const productsApi = createApi({
 			query: (id) => `products/${id}`,
 		}),
 		createProduct: builder.mutation<
-			CreateProductResponse,
+			MuteProductResponse,
 			Omit<Product, "_id" | "productId" | "createdAt" | "__v">
 		>({
 			query: (newProduct) => ({
@@ -29,6 +29,17 @@ export const productsApi = createApi({
 				body: newProduct,
 			}),
 			invalidatesTags: ["ProductList"], // Invalidate tag
+		}),
+		updateProduct: builder.mutation<
+			MuteProductResponse,
+			{ id: string; updatedProduct: Partial<Product> }
+		>({
+			query: ({ id, updatedProduct }) => ({
+				url: `products/${id}`,
+				method: "PATCH",
+				body: updatedProduct,
+			}),
+			invalidatesTags: ["ProductList"],
 		}),
 	}),
 	// Define tags for invalidation
@@ -40,4 +51,5 @@ export const {
 	useGetAllProductsQuery,
 	useGetProductQuery,
 	useCreateProductMutation,
+	useUpdateProductMutation,
 } = productsApi;

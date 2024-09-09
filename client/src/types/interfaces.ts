@@ -14,7 +14,7 @@ export interface ProductsResponse {
 	products: Product[];
 }
 
-export interface CreateProductResponse {
+export interface MuteProductResponse {
 	success: boolean;
 	insertedId?: string;
 	insertedIds?: string[];
