@@ -13,3 +13,10 @@ export interface ProductsResponse {
 	totalProducts: number;
 	products: Product[];
 }
+
+export interface CreateProductResponse {
+	success: boolean;
+	insertedId?: string;
+	insertedIds?: string[];
+	message: string;
+}

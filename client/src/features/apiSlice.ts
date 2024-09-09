@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Product, ProductsResponse } from "../types/interfaces";
+import {
+	CreateProductResponse,
+	Product,
+	ProductsResponse,
+} from "../types/interfaces";
 
 // Define the API
 export const productsApi = createApi({
@@ -10,12 +14,30 @@ export const productsApi = createApi({
 	endpoints: (builder) => ({
 		getAllProducts: builder.query<ProductsResponse, void>({
 			query: () => "products",
-        }),
-        getProduct: builder.query<Product, string>({
-            query:(id)=>`products/${id}`
-        })
+			providesTags: ["ProductList"], // Provide tag for invalidation
+		}),
+		getProduct: builder.query<Product, string>({
+			query: (id) => `products/${id}`,
+		}),
+		createProduct: builder.mutation<
+			CreateProductResponse,
+			Omit<Product, "_id" | "productId" | "createdAt" | "__v">
+		>({
+			query: (newProduct) => ({
+				url: "products",
+				method: "POST",
+				body: newProduct,
+			}),
+			invalidatesTags: ["ProductList"], // Invalidate tag
+		}),
 	}),
+	// Define tags for invalidation
+	tagTypes: ["ProductList"],
 });
 
 // Export the auto-generated hook
-export const { useGetAllProductsQuery, useGetProductQuery } = productsApi;
+export const {
+	useGetAllProductsQuery,
+	useGetProductQuery,
+	useCreateProductMutation,
+} = productsApi;
