@@ -4,6 +4,7 @@ import {
 	useGetAllProductsQuery,
 	useGetProductQuery,
 } from "./features/apiSlice";
+import { ProductsResponse } from "./types/interfaces";
 
 const newProduct = {
 	title: "Picas",
@@ -12,16 +13,17 @@ const newProduct = {
 };
 
 const App = () => {
-	const [createProduct, { isSuccess, isError, error }] =
-		useCreateProductMutation();
-	const { data = {}, isLoading } = useGetAllProductsQuery();
+	const [createProduct] = useCreateProductMutation();
+	const { data: productResponse = {}, isLoading } = useGetAllProductsQuery();
 	const { data: product = {}, isLoading: isProductLoading } =
 		useGetProductQuery("66ddf7504f84e28898a73a7e");
+
+	const products = (productResponse as ProductsResponse)?.products || [];
 
 	if (isLoading || isProductLoading) {
 		console.log("Haun Uncle");
 	} else {
-		console.log(data);
+		console.log(products);
 		console.log(product);
 	}
 
@@ -33,9 +35,9 @@ const App = () => {
 			}
 		} catch (err) {
 			if (err instanceof Error) {
-				toast.error(err.message);
+				toast.error(err.message || "Unknown Error!");
 			}
-			toast.error(err.message || "Unknown Error!");
+			toast.error("Unknown Error!");
 		}
 	};
 
