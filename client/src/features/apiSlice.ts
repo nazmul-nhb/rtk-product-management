@@ -41,6 +41,13 @@ export const productsApi = createApi({
 			}),
 			invalidatesTags: ["ProductList"],
 		}),
+		deleteProduct: builder.mutation<MuteProductResponse, string>({
+			query: (id) => ({
+				url: `products/${id}`,
+				method: "DELETE",
+			}),
+			invalidatesTags: ["ProductList"],
+		}),
 	}),
 	// Define tags for invalidation
 	tagTypes: ["ProductList"],
@@ -52,4 +59,5 @@ export const {
 	useGetProductQuery,
 	useCreateProductMutation,
 	useUpdateProductMutation,
+	useDeleteProductMutation,
 } = productsApi;
