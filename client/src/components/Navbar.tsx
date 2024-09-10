@@ -28,7 +28,7 @@ const Navbar = () => {
 	}, [sidebarRef, dropdownRef]);
 
 	return (
-		<nav className="max-w-[1920px] flex items-center justify-between gap-0 md:gap-4 mx-auto shadow-md px-3 py-2 md:px-14 sticky top-0 bg-navBG bg-opacity-100 z-50 text-teal-800 transition-all duration-1000 h-16">
+		<nav className="max-w-[1920px] flex items-center justify-between gap-0 md:gap-4 mx-auto shadow-md px-3 py-2 md:px-14 sticky top-0 bg-slate-600 bg-opacity-70 z-50 text-teal-800 transition-all duration-1000 h-16">
 			<div className="absolute inset-0 backdrop-filter backdrop-blur-sm -z-10"></div>
 
 			{/* Sandwich Menubar */}
@@ -53,11 +53,11 @@ const Navbar = () => {
 			</span>
 
 			{/* Navbar Items/Links/Routes */}
-			<div className="text-lg md:text-xl">
+			<div className="text-lg md:text-xl text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-teal-900">
 				<ul
 					className={`w-3/5 sm:w-full flex flex-col sm:flex-row justify-start sm:justify-center gap-2 sm:gap-4 font-semibold duration-500 absolute sm:static shadow-lg shadow-slate-700 sm:shadow-none h-screen sm:h-auto p-4 sm:p-0 ${
 						openNavbar
-							? "md:pl-14 left-0 top-16 bg-navBG backdrop-blur-sm flex z-30"
+							? "md:pl-14 left-0 top-16 bg-slate-600 opacity-70 text-white inset-0 backdrop-filter backdrop-blur-sm flex z-30"
 							: "-left-full top-16"
 					}`}
 				>
