@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-	IProductMutationResponse,
+	IPMutationResponse,
 	IProduct,
-	IProductsQueryResponse,
+	IPQueryResponse,
 	IProductToCreate,
 	IProductToUpdate,
 } from "../types/interfaces";
@@ -15,7 +15,7 @@ export const productsApi = createApi({
 	}),
 	endpoints: (builder) => ({
 		// get all products
-		getAllProducts: builder.query<IProductsQueryResponse, void>({
+		getAllProducts: builder.query<IPQueryResponse, void>({
 			query: () => "products",
 			providesTags: ["ProductList"], // Provide tag for invalidation
 		}),
@@ -24,10 +24,7 @@ export const productsApi = createApi({
 			query: (id) => `products/${id}`,
 		}),
 		// create a new product
-		createProduct: builder.mutation<
-			IProductMutationResponse,
-			IProductToCreate
-		>({
+		createProduct: builder.mutation<IPMutationResponse, IProductToCreate>({
 			query: (newProduct) => ({
 				url: "products",
 				method: "POST",
@@ -36,10 +33,7 @@ export const productsApi = createApi({
 			invalidatesTags: ["ProductList"], // Invalidate tag
 		}),
 		// update a product by id
-		updateProduct: builder.mutation<
-			IProductMutationResponse,
-			IProductToUpdate
-		>({
+		updateProduct: builder.mutation<IPMutationResponse, IProductToUpdate>({
 			query: ({ id, updatedProduct }) => ({
 				url: `products/${id}`,
 				method: "PATCH",
@@ -47,7 +41,7 @@ export const productsApi = createApi({
 			}),
 			invalidatesTags: ["ProductList"],
 		}),
-		deleteProduct: builder.mutation<IProductMutationResponse, string>({
+		deleteProduct: builder.mutation<IPMutationResponse, string>({
 			query: (id) => ({
 				url: `products/${id}`,
 				method: "DELETE",

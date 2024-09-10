@@ -8,13 +8,13 @@ export interface IProduct {
 	__v: number;
 }
 
-export interface IProductsQueryResponse {
+export interface IPQueryResponse {
 	success: boolean;
 	totalProducts: number;
 	products: IProduct[];
 }
 
-export interface IProductMutationResponse {
+export interface IPMutationResponse {
 	success: boolean;
 	insertedId?: string;
 	insertedIds?: string[];

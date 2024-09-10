@@ -6,7 +6,7 @@ import {
 	// useGetProductQuery,
 	useUpdateProductMutation,
 } from "./features/apiSlice";
-import { IProductsQueryResponse } from "./types/interfaces";
+import { IPQueryResponse } from "./types/interfaces";
 
 const newProduct = {
 	title: "Picas",
@@ -26,8 +26,7 @@ const App = () => {
 	// const { data: product = {}, isLoading: isProductLoading } =
 	// 	useGetProductQuery("66ddf7504f84e28898a73a7e");
 
-	const products =
-		(productResponse as IProductsQueryResponse)?.products || [];
+	const products = (productResponse as IPQueryResponse)?.products || [];
 
 	// if (isLoading || isProductLoading) {
 	// 	console.log("Haun Uncle");
