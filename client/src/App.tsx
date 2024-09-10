@@ -37,10 +37,11 @@ const App = () => {
 
 	const handleCreateProduct = async () => {
 		try {
-			const result = await createProduct(newProduct).unwrap();
-			if (result.success) {
-				toast.success(result.message);
-			}
+			toast.promise(createProduct(newProduct).unwrap(), {
+				loading: "Saving Product...",
+				success: (result) => result.message,
+				error: (error) => error.message || "Error Saving Product!",
+			});
 		} catch (err) {
 			if (err instanceof Error) {
 				toast.error(err.message || "Unknown Error!");
@@ -51,10 +52,11 @@ const App = () => {
 
 	const handleUpdateProduct = async (id: string) => {
 		try {
-			const result = await updateProduct({ id, updatedProduct }).unwrap();
-			if (result.success) {
-				toast.success(result.message);
-			}
+			toast.promise(updateProduct({ id, updatedProduct }).unwrap(), {
+				loading: "Updating Product...",
+				success: (result) => result.message,
+				error: (error) => error.message || "Error Updating Product!",
+			});
 		} catch (err) {
 			if (err instanceof Error) {
 				toast.error(err.message || "Unknown Error!");
@@ -65,10 +67,11 @@ const App = () => {
 
 	const handleDeleteProduct = async (id: string) => {
 		try {
-			const result = await deleteProduct(id).unwrap();
-			if (result.success) {
-				toast.success(result.message);
-			}
+			toast.promise(deleteProduct(id).unwrap(), {
+				loading: "Deleting Product...",
+				success: (result) => result.message,
+				error: (error) => error.message || "Error Deleting Product!",
+			});
 		} catch (err) {
 			if (err instanceof Error) {
 				toast.error(err.message || "Unknown Error!");
