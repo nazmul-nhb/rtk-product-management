@@ -101,13 +101,13 @@ const App = () => {
 							{idx + 1}. {title}
 						</h3>
 						<button
-							className="border border-teal-800 hover:bg-teal-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
+							className="border border-teal-800 text-teal-800 hover:bg-teal-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
 							onClick={() => handleUpdateProduct(_id)}
 						>
 							Update {title}
 						</button>
 						<button
-							className="border border-red-800 hover:bg-red-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
+							className="border border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
 							onClick={() => handleDeleteProduct(_id)}
 						>
 							Delete {title}

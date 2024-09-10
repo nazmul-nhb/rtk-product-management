@@ -7,17 +7,22 @@ import {
 	IProductToUpdate,
 } from "../types/interfaces";
 
+const baseUrl = "https://rtk-product-management-server.vercel.app/";
+
+const baseQuery = fetchBaseQuery({ baseUrl });
+
+const url = "products";
+
 // Define the API
 export const productsApi = createApi({
 	reducerPath: "productsApi",
-	baseQuery: fetchBaseQuery({
-		baseUrl: "https://rtk-product-management-server.vercel.app/",
-	}),
+	baseQuery,
+	tagTypes: ["ProductList"],
 	endpoints: (builder) => ({
 		// get all products
 		getAllProducts: builder.query<IPQueryResponse, void>({
-			query: () => "products",
-			providesTags: ["ProductList"], // Provide tag for invalidation
+			query: () => url,
+			providesTags: ["ProductList"],
 		}),
 		// get a single product by id
 		getProduct: builder.query<IProduct, string>({
@@ -26,34 +31,32 @@ export const productsApi = createApi({
 		// create a new product
 		createProduct: builder.mutation<IPMutationResponse, IProductToCreate>({
 			query: (newProduct) => ({
-				url: "products",
+				url,
 				method: "POST",
 				body: newProduct,
 			}),
-			invalidatesTags: ["ProductList"], // Invalidate tag
+			invalidatesTags: ["ProductList"],
 		}),
 		// update a product by id
 		updateProduct: builder.mutation<IPMutationResponse, IProductToUpdate>({
 			query: ({ id, updatedProduct }) => ({
-				url: `products/${id}`,
+				url: `${url}/${id}`,
 				method: "PATCH",
 				body: updatedProduct,
 			}),
 			invalidatesTags: ["ProductList"],
 		}),
+		// delete a product by id
 		deleteProduct: builder.mutation<IPMutationResponse, string>({
 			query: (id) => ({
-				url: `products/${id}`,
+				url: `${url}/${id}`,
 				method: "DELETE",
 			}),
 			invalidatesTags: ["ProductList"],
 		}),
 	}),
-	// Define tags for invalidation
-	tagTypes: ["ProductList"],
 });
 
-// Export the auto-generated hook
 export const {
 	useGetAllProductsQuery,
 	useGetProductQuery,
