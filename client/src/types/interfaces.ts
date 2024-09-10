@@ -1,4 +1,4 @@
-export interface Product {
+export interface IProduct {
 	_id: string;
 	title: string;
 	productImage: string;
@@ -8,15 +8,26 @@ export interface Product {
 	__v: number;
 }
 
-export interface ProductsResponse {
+export interface IProductsQueryResponse {
 	success: boolean;
 	totalProducts: number;
-	products: Product[];
+	products: IProduct[];
 }
 
-export interface MuteProductResponse {
+export interface IProductMutationResponse {
 	success: boolean;
 	insertedId?: string;
 	insertedIds?: string[];
 	message: string;
+}
+
+export interface IProductToCreate {
+	title: string;
+	productImage: string;
+	price: number;
+}
+
+export interface IProductToUpdate {
+	id: string;
+	updatedProduct: Partial<IProduct>;
 }

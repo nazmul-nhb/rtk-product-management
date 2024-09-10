@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-	MuteProductResponse,
-	Product,
-	ProductsResponse,
+	IProductMutationResponse,
+	IProduct,
+	IProductsQueryResponse,
+	IProductToCreate,
+	IProductToUpdate,
 } from "../types/interfaces";
 
 // Define the API
@@ -12,16 +14,19 @@ export const productsApi = createApi({
 		baseUrl: "https://rtk-product-management-server.vercel.app/",
 	}),
 	endpoints: (builder) => ({
-		getAllProducts: builder.query<ProductsResponse, void>({
+		// get all products
+		getAllProducts: builder.query<IProductsQueryResponse, void>({
 			query: () => "products",
 			providesTags: ["ProductList"], // Provide tag for invalidation
 		}),
-		getProduct: builder.query<Product, string>({
+		// get a single product by id
+		getProduct: builder.query<IProduct, string>({
 			query: (id) => `products/${id}`,
 		}),
+		// create a new product
 		createProduct: builder.mutation<
-			MuteProductResponse,
-			Omit<Product, "_id" | "productId" | "createdAt" | "__v">
+			IProductMutationResponse,
+			IProductToCreate
 		>({
 			query: (newProduct) => ({
 				url: "products",
@@ -30,9 +35,10 @@ export const productsApi = createApi({
 			}),
 			invalidatesTags: ["ProductList"], // Invalidate tag
 		}),
+		// update a product by id
 		updateProduct: builder.mutation<
-			MuteProductResponse,
-			{ id: string; updatedProduct: Partial<Product> }
+			IProductMutationResponse,
+			IProductToUpdate
 		>({
 			query: ({ id, updatedProduct }) => ({
 				url: `products/${id}`,
@@ -41,7 +47,7 @@ export const productsApi = createApi({
 			}),
 			invalidatesTags: ["ProductList"],
 		}),
-		deleteProduct: builder.mutation<MuteProductResponse, string>({
+		deleteProduct: builder.mutation<IProductMutationResponse, string>({
 			query: (id) => ({
 				url: `products/${id}`,
 				method: "DELETE",
