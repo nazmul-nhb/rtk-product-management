@@ -51,7 +51,7 @@ export const getProducts = async (
 ) => {
 	try {
 		const [products, totalProducts] = await Promise.all([
-			Product.find({}),
+			Product.find({}).sort({createdAt: -1}),
 			Product.countDocuments(),
 		]);
 
