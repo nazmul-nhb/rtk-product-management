@@ -22,11 +22,15 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 
 	const handleUpdateProduct = async (id: string) => {
 		try {
-			toast.promise(updateProduct({ id, updatedProduct }).unwrap(), {
-				loading: "Updating Product...",
-				success: (result) => result.message,
-				error: (error) => error.message || "Error Updating Product!",
-			});
+			await toast.promise(
+				updateProduct({ id, updatedProduct }).unwrap(),
+				{
+					loading: "Updating Product...",
+					success: (result) => result.message,
+					error: (error) =>
+						error.message || "Error Updating Product!",
+				}
+			);
 		} catch (err) {
 			if (err instanceof Error) {
 				toast.error(err.message || "Unknown Error!");
@@ -37,7 +41,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 
 	const handleDeleteProduct = async (id: string) => {
 		try {
-			toast.promise(deleteProduct(id).unwrap(), {
+			await toast.promise(deleteProduct(id).unwrap(), {
 				loading: "Deleting Product...",
 				success: (result) => result.message,
 				error: (error) => error.message || "Error Deleting Product!",
@@ -51,7 +55,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center gap-1 border px-3 py-2">
+		<section className="flex flex-col items-center justify-center gap-1 border px-3 py-2">
 			<div title={title} className="space-y-2">
 				<figure className="relative border p-1 aspect-square">
 					<img src={productImage} alt={title} />
@@ -81,7 +85,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 					Delete
 				</button>
 			</div>
-		</div>
+		</section>
 	);
 };
 
