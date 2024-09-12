@@ -31,3 +31,14 @@ export interface IProductToUpdate {
 	id: string;
 	updatedProduct: Partial<IProduct>;
 }
+
+export interface CartItem {
+	id: string;
+	title: string;
+	price: number;
+	quantity: number;
+}
+
+export interface CartState {
+	cart: CartItem[];
+}
