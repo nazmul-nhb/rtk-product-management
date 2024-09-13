@@ -1,46 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { IProduct } from "../types/interfaces";
 import toast from "react-hot-toast";
-import {
-	useDeleteProductMutation,
-	useUpdateProductMutation,
-} from "../features/apiSlice";
+import { useDeleteProductMutation } from "../features/apiSlice";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
+import UpdateModal from "./UpdateModal";
 
-interface ProductProps {
+interface IProductProps {
 	product: IProduct;
 }
 
-const updatedProduct = {
-	title: "Updated",
-};
-
-const Product: React.FC<ProductProps> = ({ product }) => {
+const Product: React.FC<IProductProps> = ({ product }) => {
 	const { _id, title, productImage, productId, price } = product;
+	const [open, setOpen] = useState(false);
+	const showModal = () => {
+		setOpen(true);
+	};
 
-	const [updateProduct] = useUpdateProductMutation();
 	const [deleteProduct] = useDeleteProductMutation();
 	const dispatch = useDispatch();
-
-	const handleUpdateProduct = async (id: string) => {
-		try {
-			await toast.promise(
-				updateProduct({ id, updatedProduct }).unwrap(),
-				{
-					loading: "Updating Product...",
-					success: (result) => result.message,
-					error: (error) =>
-						error.message || "Error Updating Product!",
-				}
-			);
-		} catch (err) {
-			if (err instanceof Error) {
-				toast.error(err.message || "Unknown Error!");
-			}
-			toast.error("Unknown Error!");
-		}
-	};
 
 	const handleDeleteProduct = async (id: string) => {
 		try {
@@ -77,7 +55,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 			<div className="w-full flex items-center flex-wrap justify-around gap-3 mt-2">
 				<button
 					className="border border-teal-800 text-teal-800 hover:bg-teal-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
-					onClick={() => handleUpdateProduct(_id)}
+					onClick={showModal}
 				>
 					Update
 				</button>
@@ -94,6 +72,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 					Add to Cart
 				</button>
 			</div>
+			<UpdateModal open={open} setOpen={setOpen} product={product} />
 		</section>
 	);
 };
