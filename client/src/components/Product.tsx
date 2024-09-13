@@ -72,7 +72,7 @@ const Product: React.FC<IProductProps> = ({ product }) => {
 					Add to Cart
 				</button>
 			</div>
-			<UpdateModal open={open} setOpen={setOpen} product={product} />
+			<UpdateModal open={open} setOpen={setOpen} id={_id} />
 		</section>
 	);
 };

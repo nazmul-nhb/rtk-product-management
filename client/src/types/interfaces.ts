@@ -14,6 +14,11 @@ export interface IPQueryResponse {
 	products: IProduct[];
 }
 
+export interface IProductResponse {
+	success: boolean;
+	product: IProduct;
+}
+
 export interface IPMutationResponse {
 	success: boolean;
 	insertedId?: string;

@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { Button, Form, Input } from "antd";
-import { useUpdateProductMutation } from "../features/apiSlice";
+import {
+	useGetProductQuery,
+	useUpdateProductMutation,
+} from "../features/apiSlice";
 import { TProductField } from "../types/types";
-import { IProduct } from "../types/interfaces";
+import { IProductResponse } from "../types/interfaces";
 
 interface IUpdateProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	product: IProduct;
+	id: string;
 }
 
-const UpdateProduct: React.FC<IUpdateProps> = ({ setOpen, product }) => {
-	const { _id: id, title, productImage, price } = product;
+const UpdateProduct: React.FC<IUpdateProps> = ({ setOpen, id }) => {
+	const { data: productResponse, isLoading } = useGetProductQuery(id);
+
+	const { title, productImage, price } =
+		(productResponse as IProductResponse).product || {};
+
 	const [form] = Form.useForm();
+
+	// update to latest product data
+	useEffect(() => {
+		if (productResponse) {
+			form.setFieldsValue({
+				title,
+				productImage,
+				price,
+			});
+		}
+	}, [productResponse, form, title, productImage, price]);
 
 	const [updateProduct] = useUpdateProductMutation();
 
@@ -37,6 +55,13 @@ const UpdateProduct: React.FC<IUpdateProps> = ({ setOpen, product }) => {
 			setOpen(false);
 		}
 	};
+
+	if (isLoading)
+		return (
+			<div className="flex items-center justify-center my-6">
+				Loading...
+			</div>
+		);
 
 	return (
 		<section className="w-full px-6 my-6 mx-auto flex flex-col items-center justify-center gap-5">

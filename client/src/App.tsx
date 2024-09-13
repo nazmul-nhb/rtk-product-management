@@ -20,9 +20,9 @@ const App = () => {
 			<Navbar />
 			<CreateProduct/>
 			<main className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 my-6 px-8 mx-auto">
-				{products?.map((p) => (
-					<div key={p._id}>
-						<Product product={p} />
+				{products?.map((product) => (
+					<div key={product._id}>
+						<Product product={product} />
 					</div>
 				))}
 			</main>

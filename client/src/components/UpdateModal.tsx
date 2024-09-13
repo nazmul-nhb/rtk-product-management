@@ -1,17 +1,16 @@
 import React, { useRef, useState } from "react";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import { IProduct } from "../types/interfaces";
 import UpdateProduct from "./UpdateProduct";
 
 interface IUpdateProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
-	product: IProduct;
+	id: string;
 }
 
-const UpdateModal: React.FC<IUpdateProps> = ({ open, setOpen, product }) => {
+const UpdateModal: React.FC<IUpdateProps> = ({ open, setOpen, id }) => {
 	const [disabled, setDisabled] = useState(true);
 	const [bounds, setBounds] = useState({
 		left: 0,
@@ -57,8 +56,12 @@ const UpdateModal: React.FC<IUpdateProps> = ({ open, setOpen, product }) => {
 					</div>
 				}
 				open={open}
-				// footer={null}
-				onOk={() => setOpen(false)}
+				footer={[
+					<Button key="cancel" onClick={() => setOpen(false)}>
+						Cancel
+					</Button>,
+				]}
+				// onOk={() => setOpen(false)}
 				onCancel={() => setOpen(false)}
 				modalRender={(modal) => (
 					<Draggable
@@ -71,7 +74,7 @@ const UpdateModal: React.FC<IUpdateProps> = ({ open, setOpen, product }) => {
 					</Draggable>
 				)}
 			>
-				<UpdateProduct setOpen={setOpen} product={product} />
+				<UpdateProduct setOpen={setOpen} id={id} />
 			</Modal>
 		</>
 	);

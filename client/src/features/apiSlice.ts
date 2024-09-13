@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
 	IPMutationResponse,
-	IProduct,
+	IProductResponse,
 	IPQueryResponse,
 	IProductToCreate,
 	IProductToUpdate,
@@ -17,7 +17,7 @@ const url = "products";
 export const productsApi = createApi({
 	reducerPath: "productsApi",
 	baseQuery,
-	tagTypes: ["ProductList"],
+	tagTypes: ["ProductList", "Product"],
 	endpoints: (builder) => ({
 		// get all products
 		getAllProducts: builder.query<IPQueryResponse, void>({
@@ -25,8 +25,9 @@ export const productsApi = createApi({
 			providesTags: ["ProductList"],
 		}),
 		// get a single product by id
-		getProduct: builder.query<IProduct, string>({
+		getProduct: builder.query<IProductResponse, string>({
 			query: (id) => `products/${id}`,
+			providesTags: ["Product"],
 		}),
 		// create a new product
 		createProduct: builder.mutation<IPMutationResponse, IProductToCreate>({
@@ -44,7 +45,7 @@ export const productsApi = createApi({
 				method: "PATCH",
 				body: updatedProduct,
 			}),
-			invalidatesTags: ["ProductList"],
+			invalidatesTags: ["ProductList", "Product"],
 		}),
 		// delete a product by id
 		deleteProduct: builder.mutation<IPMutationResponse, string>({
