@@ -5,6 +5,8 @@ import {
 	useDeleteProductMutation,
 	useUpdateProductMutation,
 } from "../features/apiSlice";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/cartSlice";
 
 interface ProductProps {
 	product: IProduct;
@@ -19,6 +21,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 
 	const [updateProduct] = useUpdateProductMutation();
 	const [deleteProduct] = useDeleteProductMutation();
+	const dispatch = useDispatch();
 
 	const handleUpdateProduct = async (id: string) => {
 		try {
@@ -71,7 +74,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 					</span>
 				</figure>
 			</div>
-			<div className="w-full flex items-center flex-wrap justify-between gap-3">
+			<div className="w-full flex items-center flex-wrap justify-around gap-3 mt-2">
 				<button
 					className="border border-teal-800 text-teal-800 hover:bg-teal-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
 					onClick={() => handleUpdateProduct(_id)}
@@ -83,6 +86,12 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 					onClick={() => handleDeleteProduct(_id)}
 				>
 					Delete
+				</button>
+				<button
+					className="border border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
+					onClick={() => dispatch(addToCart(_id))}
+				>
+					Add to Cart
 				</button>
 			</div>
 		</section>
