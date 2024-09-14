@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { MdMenuOpen, MdOutlineClose } from "react-icons/md";
 import { useGetAllProductsQuery } from "../features/apiSlice";
 import { IPQueryResponse } from "../types/interfaces";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const Navbar = () => {
 	const [openNavbar, setOpenNavbar] = useState<boolean>(false);
 	const sidebarRef = useRef<HTMLDivElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
-	const { data: productResponse = {} } = useGetAllProductsQuery();
-	const products = (productResponse as IPQueryResponse)?.totalProducts || 0;
+	const { data: pResponse = {} } = useGetAllProductsQuery();
+	const totalProducts = (pResponse as IPQueryResponse)?.totalProducts || 0;
+	const cartProducts = useSelector((state: RootState) => state.cart.cart);
 
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
@@ -48,7 +51,7 @@ const Navbar = () => {
 			<span className="ml-8 sm:ml-0 flex items-center gap-2 text-lg sm:text-2xl font-bold">
 				RTK
 				<span className="text-red-800">
-					Product <sup>{products}</sup> Management
+					Product <sup>{totalProducts}</sup> Management
 				</span>
 			</span>
 
@@ -61,6 +64,12 @@ const Navbar = () => {
 							: "-left-full top-16"
 					}`}
 				>
+					<li>
+						Cart{" "}
+						<sup className="text-orange-800">
+							{cartProducts?.length}
+						</sup>
+					</li>
 					<li>Redux</li>
 					<li>TypeScript</li>
 					<li>SASS</li>
