@@ -37,13 +37,6 @@ export interface IProductToUpdate {
 	updatedProduct: Partial<IProduct>;
 }
 
-export interface CartItem {
-	id: string;
-	title: string;
-	price: number;
-	quantity: number;
-}
-
-export interface CartState {
-	cart: CartItem[];
+export interface ICartState {
+	cart: string[];
 }

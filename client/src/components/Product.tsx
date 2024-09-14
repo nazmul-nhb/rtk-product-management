@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { IProduct } from "../types/interfaces";
 import toast from "react-hot-toast";
 import { useDeleteProductMutation } from "../features/apiSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cartSlice";
 import UpdateModal from "./UpdateModal";
+import { RootState } from "../store/store";
 
 interface IProductProps {
 	product: IProduct;
@@ -13,9 +14,7 @@ interface IProductProps {
 const Product: React.FC<IProductProps> = ({ product }) => {
 	const { _id, title, productImage, productId, price } = product;
 	const [open, setOpen] = useState(false);
-	const showModal = () => {
-		setOpen(true);
-	};
+	const cartProducts = useSelector((state: RootState) => state.cart.cart);
 
 	const [deleteProduct] = useDeleteProductMutation();
 	const dispatch = useDispatch();
@@ -55,7 +54,7 @@ const Product: React.FC<IProductProps> = ({ product }) => {
 			<div className="w-full flex items-center flex-wrap justify-around gap-3 mt-2">
 				<button
 					className="border border-teal-800 text-teal-800 hover:bg-teal-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
-					onClick={showModal}
+					onClick={() => setOpen(true)}
 				>
 					Update
 				</button>
@@ -65,12 +64,21 @@ const Product: React.FC<IProductProps> = ({ product }) => {
 				>
 					Delete
 				</button>
-				<button
-					className="border border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
-					onClick={() => dispatch(addToCart(_id))}
-				>
-					Add to Cart
-				</button>
+				{cartProducts?.includes(_id) ? (
+					<button
+						className="border border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
+						// onClick={() => dispatch(addToCart(_id))}
+					>
+						Remove from Cart
+					</button>
+				) : (
+					<button
+						className="border border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
+						onClick={() => dispatch(addToCart(_id))}
+					>
+						Add to Cart
+					</button>
+				)}
 			</div>
 			<UpdateModal open={open} setOpen={setOpen} id={_id} />
 		</section>
