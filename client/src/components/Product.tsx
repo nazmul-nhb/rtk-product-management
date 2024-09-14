@@ -3,7 +3,7 @@ import { IProduct } from "../types/interfaces";
 import toast from "react-hot-toast";
 import { useDeleteProductMutation } from "../features/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../features/cartSlice";
+import { addToCart, removeFromCart } from "../features/cartSlice";
 import UpdateModal from "./UpdateModal";
 import { RootState } from "../store/store";
 
@@ -67,7 +67,7 @@ const Product: React.FC<IProductProps> = ({ product }) => {
 				{cartProducts?.includes(_id) ? (
 					<button
 						className="border border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition-all duration-500 font-semibold px-3 py-1"
-						// onClick={() => dispatch(addToCart(_id))}
+						onClick={() => dispatch(removeFromCart(_id))}
 					>
 						Remove from Cart
 					</button>
