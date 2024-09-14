@@ -7,6 +7,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TRootState } from "./store/store";
 import { removeFromCart } from "./features/cartSlice";
+import { Flex, Spin } from "antd";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -20,11 +21,12 @@ const App = () => {
 
 	// remove non-existing ids (in products array) from the cart
 	useEffect(() => {
+		// extract the array of non-existing ids
 		if (products.length) {
 			const nonExistingIds = cartProducts.filter(
 				(id) => !products.some((product) => product._id === id)
 			);
-
+			// remove the non-existing ids
 			if (nonExistingIds.length) {
 				nonExistingIds.forEach((ID) => {
 					dispatch(removeFromCart(ID));
@@ -35,9 +37,9 @@ const App = () => {
 
 	if (isLoading)
 		return (
-			<div className="flex items-center justify-center my-6">
-				Loading...
-			</div>
+			<Flex align="center" justify="center" gap="middle">
+				<Spin percent={"auto"} size="large" fullscreen />
+			</Flex>
 		);
 
 	return (

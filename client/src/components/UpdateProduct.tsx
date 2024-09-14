@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
-import { Button, Form, Input } from "antd";
+import { Flex, Spin, Button, Form, Input } from "antd";
 import {
 	useGetProductQuery,
 	useUpdateProductMutation,
@@ -58,9 +58,16 @@ const UpdateProduct: React.FC<IUpdateProps> = ({ setOpen, id }) => {
 
 	if (isLoading)
 		return (
-			<div className="flex items-center justify-center my-6">
-				Loading...
-			</div>
+			<Flex
+				style={{
+					minHeight: "42vh",
+				}}
+				align="center"
+				justify="center"
+				gap="middle"
+			>
+				<Spin percent={"auto"} size="large" />
+			</Flex>
 		);
 
 	return (
