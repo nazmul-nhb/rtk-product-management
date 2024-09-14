@@ -3,10 +3,35 @@ import { IPQueryResponse } from "./types/interfaces";
 import Navbar from "./components/Navbar";
 import Product from "./components/Product";
 import CreateProduct from "./components/CreateProduct";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { TRootState } from "./store/store";
+import { removeFromCart } from "./features/cartSlice";
 
 const App = () => {
+	const dispatch = useDispatch();
+	const cartProducts = useSelector((state: TRootState) => state.cart.cart);
 	const { data: productResponse = {}, isLoading } = useGetAllProductsQuery();
-	const products = (productResponse as IPQueryResponse)?.products || [];
+
+	const products = useMemo(
+		() => (productResponse as IPQueryResponse)?.products || [],
+		[productResponse]
+	);
+
+	// remove non-existing ids (in products array) from the cart
+	useEffect(() => {
+		if (products.length) {
+			const nonExistingIds = cartProducts.filter(
+				(id) => !products.some((product) => product._id === id)
+			);
+
+			if (nonExistingIds.length) {
+				nonExistingIds.forEach((ID) => {
+					dispatch(removeFromCart(ID));
+				});
+			}
+		}
+	}, [cartProducts, dispatch, products]);
 
 	if (isLoading)
 		return (

@@ -3,7 +3,7 @@ import { MdMenuOpen, MdOutlineClose } from "react-icons/md";
 import { useGetAllProductsQuery } from "../features/apiSlice";
 import { IPQueryResponse } from "../types/interfaces";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { TRootState } from "../store/store";
 
 const Navbar = () => {
 	const [openNavbar, setOpenNavbar] = useState<boolean>(false);
@@ -11,7 +11,7 @@ const Navbar = () => {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const { data: pResponse = {} } = useGetAllProductsQuery();
 	const totalProducts = (pResponse as IPQueryResponse)?.totalProducts || 0;
-	const cartProducts = useSelector((state: RootState) => state.cart.cart);
+	const cartProducts = useSelector((state: TRootState) => state.cart.cart);
 
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {

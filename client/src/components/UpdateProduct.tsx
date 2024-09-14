@@ -17,7 +17,7 @@ const UpdateProduct: React.FC<IUpdateProps> = ({ setOpen, id }) => {
 	const { data: productResponse, isLoading } = useGetProductQuery(id);
 
 	const { title, productImage, price } =
-		(productResponse as IProductResponse).product || {};
+		(productResponse as IProductResponse)?.product || {};
 
 	const [form] = Form.useForm();
 

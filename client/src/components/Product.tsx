@@ -5,7 +5,7 @@ import { useDeleteProductMutation } from "../features/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../features/cartSlice";
 import UpdateModal from "./UpdateModal";
-import { RootState } from "../store/store";
+import { TRootState } from "../store/store";
 
 interface IProductProps {
 	product: IProduct;
@@ -14,7 +14,7 @@ interface IProductProps {
 const Product: React.FC<IProductProps> = ({ product }) => {
 	const { _id, title, productImage, productId, price } = product;
 	const [open, setOpen] = useState(false);
-	const cartProducts = useSelector((state: RootState) => state.cart.cart);
+	const cartProducts = useSelector((state: TRootState) => state.cart.cart);
 
 	const [deleteProduct] = useDeleteProductMutation();
 	const dispatch = useDispatch();
