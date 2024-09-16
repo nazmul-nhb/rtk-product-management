@@ -28,7 +28,7 @@ export interface IPCreationResponse {
 
 export interface IPUpdateResponse {
 	success: boolean;
-	updatedProduct: IProduct[];
+	updatedProduct: IProduct;
 	message: string;
 }
 
