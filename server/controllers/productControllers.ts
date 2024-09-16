@@ -51,15 +51,19 @@ export const getProducts = async (
 ) => {
 	try {
 		const [products, totalProducts] = await Promise.all([
-			Product.find({}).sort({createdAt: -1}),
+			Product.find({}).sort({ createdAt: -1 }),
 			Product.countDocuments(),
 		]);
 
-		return res.status(200).send({
-			success: true,
-			totalProducts,
-			products,
-		});
+		if (products.length) {
+			return res.status(200).send({
+				success: true,
+				totalProducts,
+				products,
+			});
+		} else {
+			throw new Error("No Product in the Store!");
+		}
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error("Error Fetching Products: ", error.message);
@@ -83,10 +87,14 @@ export const getProduct = async (
 		const ID = req.params.id;
 		const product = await Product.findById(ID);
 
-		return res.status(200).send({
-			success: true,
-			product,
-		});
+		if (product) {
+			return res.status(200).send({
+				success: true,
+				product,
+			});
+		} else {
+			throw new Error("No Product Found!");
+		}
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error("Error Fetching Product: ", error.message);
