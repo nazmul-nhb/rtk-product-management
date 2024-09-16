@@ -19,10 +19,21 @@ export interface IProductResponse {
 	product: IProduct;
 }
 
-export interface IPMutationResponse {
+export interface IPCreationResponse {
 	success: boolean;
 	insertedId?: string;
 	insertedIds?: string[];
+	message: string;
+}
+
+export interface IPUpdateResponse {
+	success: boolean;
+	updatedProduct: IProduct[];
+	message: string;
+}
+
+export interface IPDeleteResponse {
+	success: boolean;
 	message: string;
 }
 

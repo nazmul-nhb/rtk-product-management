@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-	IPMutationResponse,
+	IPCreationResponse,
 	IProductResponse,
 	IPQueryResponse,
 	IProductToCreate,
 	IProductToUpdate,
+	IPUpdateResponse,
+	IPDeleteResponse,
 } from "../types/interfaces";
 
 const baseUrl = "https://rtk-product-management-server.vercel.app/";
@@ -30,7 +32,7 @@ export const productsApi = createApi({
 			providesTags: ["Product"],
 		}),
 		// create a new product
-		createProduct: builder.mutation<IPMutationResponse, IProductToCreate>({
+		createProduct: builder.mutation<IPCreationResponse, IProductToCreate>({
 			query: (newProduct) => ({
 				url,
 				method: "POST",
@@ -39,7 +41,7 @@ export const productsApi = createApi({
 			invalidatesTags: ["ProductList"],
 		}),
 		// update a product by id
-		updateProduct: builder.mutation<IPMutationResponse, IProductToUpdate>({
+		updateProduct: builder.mutation<IPUpdateResponse, IProductToUpdate>({
 			query: ({ id, updatedProduct }) => ({
 				url: `${url}/${id}`,
 				method: "PATCH",
@@ -48,7 +50,7 @@ export const productsApi = createApi({
 			invalidatesTags: ["ProductList", "Product"],
 		}),
 		// delete a product by id
-		deleteProduct: builder.mutation<IPMutationResponse, string>({
+		deleteProduct: builder.mutation<IPDeleteResponse, string>({
 			query: (id) => ({
 				url: `${url}/${id}`,
 				method: "DELETE",
