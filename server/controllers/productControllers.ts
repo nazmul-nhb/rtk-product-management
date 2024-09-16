@@ -62,7 +62,10 @@ export const getProducts = async (
 				products,
 			});
 		} else {
-			throw new Error("No Product in the Store!");
+			res.status(404).send({
+				success: false,
+				message: "No Product Found in the Store!",
+			});
 		}
 	} catch (error) {
 		if (error instanceof Error) {
@@ -93,7 +96,10 @@ export const getProduct = async (
 				product,
 			});
 		} else {
-			throw new Error("No Product Found!");
+			res.status(404).send({
+				success: false,
+				message: "Product Not Found!",
+			});
 		}
 	} catch (error) {
 		if (error instanceof Error) {
@@ -129,7 +135,10 @@ export const updateProduct = async (
 				message: `${updatedProduct.title} is Updated Successfully!`,
 			});
 		} else {
-			throw new Error("Cannot Update the Product!");
+			res.status(404).send({
+				success: false,
+				message: "Product Not Found!",
+			});
 		}
 	} catch (error) {
 		if (error instanceof Error) {
